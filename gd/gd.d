@@ -12,6 +12,8 @@
 
 module gd.gd;
 
+pragma(lib, "gd");
+
 /* stdio is needed for file I/O. */
 import core.stdc.stdio;
 
