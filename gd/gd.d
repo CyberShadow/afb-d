@@ -13,15 +13,12 @@
 module gd.gd;
 
 /* stdio is needed for file I/O. */
-import std.c.stdio;
+import core.stdc.stdio;
 
 import gd.gd_io;
 
-extern(C)
+extern(System)
 {
-
-version (Windows)
-	extern (Windows):
 
 
 /* The maximum number of palette entries in palette-based images.
@@ -80,10 +77,10 @@ uint gdTrueColorGetBlue(uint c) { return c & 0x0000FF; }
        'alpha', which appears later in the structure to
        preserve binary backwards compatibility */
     int colorsTotal;
-    int red[gdMaxColors];
-    int green[gdMaxColors];
-    int blue[gdMaxColors];
-    int open[gdMaxColors];
+    int[gdMaxColors] red;
+    int[gdMaxColors] green;
+    int[gdMaxColors] blue;
+    int[gdMaxColors] open;
     /* For backwards compatibility, this is set to the
        first palette entry with 100% transparency,
        and is also set and reset by the 
@@ -99,8 +96,8 @@ uint gdTrueColorGetBlue(uint c) { return c & 0x0000FF; }
     int polyAllocated;
     gdImageStruct *brush;
     gdImageStruct *tile;
-    int brushColorMap[gdMaxColors];
-    int tileColorMap[gdMaxColors];
+    int[gdMaxColors] brushColorMap;
+    int[gdMaxColors] tileColorMap;
     int styleLength;
     int stylePos;
     int *style;
@@ -115,7 +112,7 @@ uint gdTrueColorGetBlue(uint c) { return c & 0x0000FF; }
        100% transparent correctly, and do something 
        unpredictable and/or undesirable for levels
        in between. TBB */
-    int alpha[gdMaxColors];
+    int[gdMaxColors] alpha;
     /* Truecolor flag and pixels. New 2.0 fields appear here at the
        end to minimize breakage of existing object code. */
     int trueColor;
@@ -227,7 +224,7 @@ gdImagePtr gdImageCreateFromJpegPtr (int size, void *data);
 
   struct gdSource
   {
-    int (*source) (void *context, char *buffer, int len);
+    int function (void *context, char *buffer, int len) source;
     void *context;
   }
   alias gdSource* gdSourcePtr;
@@ -543,7 +540,7 @@ void * gdImageGifAnimEndPtr(int *size);
 /* context will be passed to your sink function. */
   struct gdSink
   {
-    int (*sink) (void *context, char *buffer, int len);
+    int function (void *context, char *buffer, int len) sink;
     void *context;
   }
   alias gdSink* gdSinkPtr;

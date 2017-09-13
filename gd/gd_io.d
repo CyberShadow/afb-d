@@ -8,18 +8,18 @@ extern (C)
 
 struct gdIOCtx
 {
-  int (*getC) (gdIOCtx *);
-  int (*getBuf) (gdIOCtx *, void *, int);
+  int function (gdIOCtx *) getC;
+  int function (gdIOCtx *, void *, int) getBuf;
 
-  void (*putC) (gdIOCtx *, int);
-  int (*putBuf) (gdIOCtx *, void *, int);
+  void function (gdIOCtx *, int) putC;
+  int function (gdIOCtx *, void *, int) putBuf;
 
   /* seek must return 1 on SUCCESS, 0 on FAILURE. Unlike fseek! */
-  int (*seek) (gdIOCtx *, int);
+  int function (gdIOCtx *, int) seek;
 
-  int (*tell) (gdIOCtx *);
+  int function (gdIOCtx *) tell;
 
-  void (*gd_free) (gdIOCtx *);
+  void function (gdIOCtx *) gd_free;
 
 }
 
